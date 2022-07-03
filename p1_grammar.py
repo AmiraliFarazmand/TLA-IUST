@@ -23,14 +23,17 @@ class Grammar():
         self.var = var
         self.products = products    
     def apply_grammar(self,input):
-        input = input.replace(self.var,self.products)
+        if self.products=='#':
+            input = input.replace(self.var,'')
+        else:
+            input = input.replace(self.var,self.products)
     @classmethod
     def does_accept(cls,input,string):
         if input.replace(cls.var,cls.products)==string:
             print('Accepted')
             exit()
 
-
+def 
 
 if __name__ == '__main__':
     grammars_dict = {}
@@ -44,4 +47,6 @@ if __name__ == '__main__':
             temp_grammar = Grammar(x , i)
             grammars_dict[x]= temp_grammar
             
-input_str = input()
+    input_str = input()
+
+    

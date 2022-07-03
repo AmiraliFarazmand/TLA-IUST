@@ -37,7 +37,7 @@ def does_accept(cls,input_var,string):
 def derivate(gr:Grammar , inc_string:str ,tmp_string:str='' ):
     tmp_string = tmp_string.replace(gr.var,gr.products)
     does_accept(gr,tmp_string,inc_string)    
-    g_list= re.findall('^<.$>' , tmp_string)
+    g_list= re.findall(r'^\<..' , tmp_string)
     for g in g_list:
         for i in grammars_list:
             if i[0] == g:
@@ -59,7 +59,9 @@ if __name__ == '__main__':
             
     input_str = input()
     time0=time.time()
-    derivate(grammars_list[0][1] , input_str ,'') 
+    derivate(grammars_list[0][1] , input_str ,grammars_list[0][1].products) 
+    derivate(grammars_list[1][1] , input_str ,grammars_list[1][1].products) 
+    derivate(grammars_list[2][1] , input_str ,grammars_list[2][1].products) 
     time.sleep(1)
     print('Rejected')
     # print(grammars_list[5][1].products)

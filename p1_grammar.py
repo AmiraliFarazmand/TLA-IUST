@@ -76,5 +76,5 @@ if __name__ == '__main__':
         derivate(g[1] , input_str ,'<S>')
     time.sleep(5)
     print('Rejected')
-    
+    # commente bikhod 1
     

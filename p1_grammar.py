@@ -48,8 +48,8 @@ def derivate(gr:Grammar , inc_string:str ,tmp_string:str='' ):
         # tmp_string = tmp_string.replace(gr.var,gr.products)
         tmp_string = gr.apply_grammar(tmp_string)
         g_list= re.findall(r'<[A-Za-z]*>', tmp_string)
+        if tmp_string==inc_string: print('***didnt work',tmp_string,g_list)
         if len(tmp_string)<=len(inc_string)+6 and g_list!=[]:
-            if tmp_string==inc_string: print('***didnt work',tmp_string,g_list)
             for g in g_list:
                 for i in grammars_list:
                     if i[0] == g:
@@ -74,7 +74,7 @@ if __name__ == '__main__':
 
     for g in grammars_list:
         derivate(g[1] , input_str ,'<S>')
-    time.sleep(1)
+    time.sleep(5)
     print('Rejected')
     
     

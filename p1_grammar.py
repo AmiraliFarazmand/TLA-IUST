@@ -16,8 +16,11 @@ aaab
 abbfcaba
     >>>Rejected
 '''
+from dataclasses import replace
 import re
-import time 
+import time
+
+from pyrsistent import inc 
 class Grammar():
     def __init__(self,var , products ):
     # var -> products
@@ -26,23 +29,32 @@ class Grammar():
     def apply_grammar(self,input_str):
         if self.products=='#':
             input_str = input_str.replace(self.var,'')
+            return input_str
         else:
             input_str = input_str.replace(self.var,self.products)
-    
-def does_accept(cls,input_var,string):
-        if input_var.replace(cls.var,cls.products)==string:
-            print('Accepted')
-            exit()
+            return input_str
+    # def does_accept(self,input_var,string):
+    #     if input_var.replace(self.var,self.products)==string:
+    #         print('Accepted')
+    #         exit()
+    #     else:
+    #         pass
 
 def derivate(gr:Grammar , inc_string:str ,tmp_string:str='' ):
-    tmp_string = tmp_string.replace(gr.var,gr.products)
-    does_accept(gr,tmp_string,inc_string)    
-    g_list= re.findall(r'^\<..' , tmp_string)
-    for g in g_list:
-        for i in grammars_list:
-            if i[0] == g:
-                gram = i[1]
-                derivate(gram,inc_string,tmp_string) 
+    if gr.apply_grammar(tmp_string)==inc_string:
+        print('Accepted')
+        exit()
+    else:
+        # tmp_string = tmp_string.replace(gr.var,gr.products)
+        tmp_string = gr.apply_grammar(tmp_string)
+        g_list= re.findall(r'<[A-Za-z]*>', tmp_string)
+        if len(tmp_string)<=len(inc_string)+6 and g_list!=[]:
+            if tmp_string==inc_string: print('***didnt work',tmp_string,g_list)
+            for g in g_list:
+                for i in grammars_list:
+                    if i[0] == g:
+                        gram = i[1]
+                        derivate(gram,inc_string,tmp_string) 
     
 
 if __name__ == '__main__':
@@ -59,9 +71,10 @@ if __name__ == '__main__':
             
     input_str = input()
     time0=time.time()
-    derivate(grammars_list[0][1] , input_str ,grammars_list[0][1].products) 
-    derivate(grammars_list[1][1] , input_str ,grammars_list[1][1].products) 
-    derivate(grammars_list[2][1] , input_str ,grammars_list[2][1].products) 
+
+    for g in grammars_list:
+        derivate(g[1] , input_str ,'<S>')
     time.sleep(1)
     print('Rejected')
-    # print(grammars_list[5][1].products)
+    
+    

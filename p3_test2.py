@@ -1,10 +1,4 @@
-from asyncore import read
-from textwrap import wrap
 import time
-from tokenize import blank_re
-from typing import final
-
-
 class TuringMachine(object):
     
     def __init__(self, 
@@ -38,8 +32,8 @@ class TuringMachine(object):
         x = (self.__current_state, char_under_head)
         if x in self.__transition_function:
             y = self.__transition_function[x]
-            print('**',self.__tape , self.__head_position ,end='$$')
-            print(x ,y)
+            # print('**',self.__tape , self.__head_position ,end='$$')
+            # print(x ,y)
             self.__tape[self.__head_position] = y[1] 
             if y[2] == "R":
                 self.__head_position += 1
@@ -88,9 +82,9 @@ class TuringMachine(object):
 # if t.flag==True: print('Accepted')
 # # print("Result of the Turing machine calculation:")    
 # print(t.get_tape())
-print('====================================================================================================')
-# all_transitions =list( input().split("00") )
-all_transitions = list('101110110111101100101101111011011001101101101101100110111011011101100110111110111011010011101101110110100111011101110111010011101111010111101100111101101111011011001111010111110101'.split("00"))
+# print('====================================================================================================')
+all_transitions =list( input().split("00") )
+# all_transitions = list('101110110111101100101101111011011001101101101101100110111011011101100110111110111011010011101101110110100111011101110111010011101111010111101100111101101111011011001111010111110101'.split("00"))
 states=[]
 transitions ={}
 for tr in all_transitions:
@@ -110,37 +104,37 @@ for tr in all_transitions:
 start_state = "1"
 final_states = {max(states)}
     
-tt= TuringMachine(tape =list("ce"),
-    blank_symbol ="1",
-    initial_state = start_state,
-    final_states = final_states,
-    transition_function= transitions
-)
+# tt= TuringMachine(tape =list("ce"),
+#     blank_symbol ="1",
+#     initial_state = start_state,
+#     final_states = final_states,
+#     transition_function= transitions
+# )
 
-t0=time.time()
-while not tt.final() and time.time()<= t0+2:
-    tt.step()
+# t0=time.time()
+# while not tt.final() and time.time()<= t0+2:
+#     tt.step()
 
-if tt.flag ==True: print('Accepted') 
-else: print('Rejected')
-print('\n' ,'****' ,tt.__dict__)
-print(tt._TuringMachine__transition_function ,sep='\n')
-print(tt._TuringMachine__tape)
-print(transitions)
-print('/////////////////////////////////////////////////////////////////////////////////////')
+# if tt.flag ==True: print('Accepted') 
+# else: print('Rejected')
+# print('\n' ,'****' ,tt.__dict__)
+# print(tt._TuringMachine__transition_function ,sep='\n')
+# print(tt._TuringMachine__tape)
+# print(transitions)
+# print('/////////////////////////////////////////////////////////////////////////////////////')
 
 ls=[]
 n = int(input())
 for i in range(n):
     x=[]    
-    inp = input().split('0')
-    for j in inp:
-        # if j=='1': x.append('a')
-        # elif j=='11': x.append('b')
-        # elif j=='111': x.append('c')
-        t = len(j)
-        x.append(chr(t+96))
-    ls.append(x)
+    tstr = input()
+    inp = tstr.split('0')
+    if tstr.strip():
+        for j in inp:
+            t = len(j)
+            x.append(chr(t+96))
+        ls.append(x)
+    else:ls.append([])
 
 machines=[]
 for tm in range(n):
@@ -154,8 +148,8 @@ for tm in range(n):
 
 for tx in machines:
     t0=time.time()
-    while not tx.final() and time.time()<= t0+1:
+    while not tx.final() and time.time()<= t0+0.1:
         tx.step()
     if tx.flag ==True: print('Accepted') 
     else: print('Rejected')
-print(ls)
+# print(ls)

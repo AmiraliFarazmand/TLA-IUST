@@ -1,3 +1,32 @@
+"""
+Implemention of a universal turning machine; check if it accepts a given number tapes or not.
+
+instances :
+101101011011001010110101
+3
+
+11011011
+110111011
+>>>
+Accepted
+Accepted
+Rejected
+----------------------------------------------------------------
+101110110111101100101101111011011001101101101101100110111011011101100110111110111011010011101101110110100111011101110111010011101111010111101100111101101111011011001111010111110101
+5
+111011111011111111
+1111101110111
+1110111011111011111
+
+111011111
+>>>
+Rejected
+Rejected
+Accepted
+Rejected
+Accepted
+"""
+
 import time
 class TuringMachine(object):
     
@@ -7,10 +36,11 @@ class TuringMachine(object):
                 final_states = None,
                 transition_function = None,
                 flag=False,
-                blank_symbol=''
+                blank_symbol='a'
                 ):
         
-        self.__tape = ['a' for i in range(5)]+tape+['a' for i in range(5)]
+        self.blank_symbol =blank_symbol
+        self.__tape = [self.blank_symbol for i in range(5)]+tape+[self.blank_symbol for i in range(5)]
         self.__head_position = 5
         self.__current_state = initial_state
         if transition_function == None:
@@ -22,7 +52,6 @@ class TuringMachine(object):
         else:
             self.__final_states = set(final_states)
         self.__flag= flag
-        self.blank_symbol =blank_symbol
 
     def get_tape(self): 
         return str(self.__tape).replace(' ', '').replace('\'', '').replace(',', '').replace('[', '').replace(']', '')
@@ -58,33 +87,7 @@ class TuringMachine(object):
             return False
 '''============================================================================='''
 '''============================================================================='''
-# initial_state = "init",
-# accepting_states = ["final"],
-# transition_function = { ("init","0"):("init", "0", "R"),
-#                         ("init","1"):("init", "0", "R"),
-#                         ("init","0"):("final","1", "L")
-#                         }
-# final_states = {"final"}
-
-# t = TuringMachine(list("10"), 
-#                     initial_state = "init",
-#                     final_states = final_states,
-#                     transition_function=transition_function,
-#                     flag=False,
-#                     blank_symbol='1')
-
-# print("Input on Tape:\n" + t.get_tape())
-# # age state aval final bashe handle nemishe!!!!
-# t0=time.time()
-# while not t.final() and time.time()<= t0+1:
-#     t.step()
-
-# if t.flag==True: print('Accepted')
-# # print("Result of the Turing machine calculation:")    
-# print(t.get_tape())
-# print('====================================================================================================')
 all_transitions =list( input().split("00") )
-# all_transitions = list('101110110111101100101101111011011001101101101101100110111011011101100110111110111011010011101101110110100111011101110111010011101111010111101100111101101111011011001111010111110101'.split("00"))
 states=[]
 transitions ={}
 for tr in all_transitions:
@@ -103,25 +106,6 @@ for tr in all_transitions:
 
 start_state = "1"
 final_states = {max(states)}
-    
-# tt= TuringMachine(tape =list("ce"),
-#     blank_symbol ="1",
-#     initial_state = start_state,
-#     final_states = final_states,
-#     transition_function= transitions
-# )
-
-# t0=time.time()
-# while not tt.final() and time.time()<= t0+2:
-#     tt.step()
-
-# if tt.flag ==True: print('Accepted') 
-# else: print('Rejected')
-# print('\n' ,'****' ,tt.__dict__)
-# print(tt._TuringMachine__transition_function ,sep='\n')
-# print(tt._TuringMachine__tape)
-# print(transitions)
-# print('/////////////////////////////////////////////////////////////////////////////////////')
 
 ls=[]
 n = int(input())
@@ -152,4 +136,3 @@ for tx in machines:
         tx.step()
     if tx.flag ==True: print('Accepted') 
     else: print('Rejected')
-# print(ls)

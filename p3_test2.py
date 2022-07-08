@@ -16,7 +16,7 @@ class TuringMachine(object):
                 blank_symbol=''
                 ):
         
-        self.__tape = ['#' for i in range(5)]+tape+['#' for i in range(5)]
+        self.__tape = ['a' for i in range(5)]+tape+['a' for i in range(5)]
         self.__head_position = 5
         self.__current_state = initial_state
         if transition_function == None:
@@ -46,17 +46,19 @@ class TuringMachine(object):
             elif y[2] == "L":
                 self.__head_position -= 1
             self.__current_state = y[0]
-        # if self.final():
-        #     self.__flag = True
+        if self.final():
+            self.__flag = True
         else:
             if self.final():
                 self.__flag = True
     @property
     def flag(self):
         return self.__flag
+    
     def final(self):
         if self.__current_state in self.__final_states:
-            print('final state:', self.__tape , self.__head_position)
+            # print('final state:', self.__tape , self.__head_position)
+            # print('hooooooooooooooooooooooooora')
             return True
         else:
             return False
@@ -88,20 +90,16 @@ class TuringMachine(object):
 # print(t.get_tape())
 print('====================================================================================================')
 # all_transitions =list( input().split("00") )
-all_transitions = list('101101011011001010110101'.split("00"))
+all_transitions = list('101110110111101100101101111011011001101101101101100110111011011101100110111110111011010011101101110110100111011101110111010011101111010111101100111101101111011011001111010111110101'.split("00"))
 states=[]
 transitions ={}
 for tr in all_transitions:
     elements = list(tr.split("0"))
     start_state = elements[0]
-    if elements[1] =='1': read_tape = 'a' 
-    if elements[1] =='1': read_tape = 'a' 
-    if elements[1] =='111': read_tape = 'c' 
+    read_tape = chr(len(elements[1])+96)
     finish_state = elements[2]
-    if  elements[3] =='1': write_tape= 'a'
-    if  elements[3] =='11': write_tape= 'b'
-    if  elements[3] =='111': write_tape= 'c'
-    move ="R" if elements[4] == "1" else "L"
+    write_tape = chr(len(elements[3])+96)
+    move ="L" if elements[4] == "1" else "R"
     if start_state not in states: states.append(start_state)
     if finish_state not in states: states.append(finish_state)
 
@@ -112,7 +110,7 @@ for tr in all_transitions:
 start_state = "1"
 final_states = {max(states)}
     
-tt= TuringMachine(tape =list("11011011"),
+tt= TuringMachine(tape =list("ce"),
     blank_symbol ="1",
     initial_state = start_state,
     final_states = final_states,
@@ -120,12 +118,44 @@ tt= TuringMachine(tape =list("11011011"),
 )
 
 t0=time.time()
-while not tt.final() and time.time()<= t0+1:
+while not tt.final() and time.time()<= t0+2:
     tt.step()
 
 if tt.flag ==True: print('Accepted') 
 else: print('Rejected')
-print('110111011')
-# print(tt.__dict__)
+print('\n' ,'****' ,tt.__dict__)
 print(tt._TuringMachine__transition_function ,sep='\n')
-# print(transitions)
+print(tt._TuringMachine__tape)
+print(transitions)
+print('/////////////////////////////////////////////////////////////////////////////////////')
+
+ls=[]
+n = int(input())
+for i in range(n):
+    x=[]    
+    inp = input().split('0')
+    for j in inp:
+        # if j=='1': x.append('a')
+        # elif j=='11': x.append('b')
+        # elif j=='111': x.append('c')
+        t = len(j)
+        x.append(chr(t+96))
+    ls.append(x)
+
+machines=[]
+for tm in range(n):
+    tx= TuringMachine(tape =ls[tm],
+    blank_symbol ="a",
+    initial_state = start_state,
+    final_states = final_states,
+    transition_function= transitions
+    )
+    machines.append(tx)
+
+for tx in machines:
+    t0=time.time()
+    while not tx.final() and time.time()<= t0+1:
+        tx.step()
+    if tx.flag ==True: print('Accepted') 
+    else: print('Rejected')
+print(ls)

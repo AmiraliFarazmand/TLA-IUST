@@ -93,9 +93,9 @@ transitions ={}
 for tr in all_transitions:
     elements = list(tr.split("0"))
     start_state = elements[0]
-    read_tape = chr(len(elements[1])+96)
+    read_tape = chr(len(elements[1])+97)
     finish_state = elements[2]
-    write_tape = chr(len(elements[3])+96)
+    write_tape = chr(len(elements[3])+97)
     move ="L" if elements[4] == "1" else "R"
     if start_state not in states: states.append(start_state)
     if finish_state not in states: states.append(finish_state)
@@ -116,7 +116,7 @@ for i in range(n):
     if tstr.strip():
         for j in inp:
             t = len(j)
-            x.append(chr(t+96))
+            x.append(chr(t+97))
         ls.append(x)
     else:ls.append([])
 

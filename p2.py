@@ -27,7 +27,6 @@ def replace (target ,r_with):
         for j in range(len(states[i][0])):
             # print(states[i][0][j][1])
             if states[i][0][j][1]==target: # replace destenitions
-                # print(states[i][0][j],'@@@@@@@@@@')
                 states[i][0][j][1]=str(r_with)
         
     del states [target]
